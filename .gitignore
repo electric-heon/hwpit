@@ -13,6 +13,7 @@ out/
 build/
 *.dmg
 *.exe
+*.blockmap
 *.AppImage
 *.snap
 *.deb
