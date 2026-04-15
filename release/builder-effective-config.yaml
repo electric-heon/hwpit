@@ -1,0 +1,18 @@
+directories:
+  output: ../release
+  buildResources: build
+appId: com.hwpit.app
+productName: HWP it!
+files:
+  - filter:
+      - dist/**/*
+      - electron/**/*
+      - '!node_modules/**/*'
+extraResources:
+  - from: ../backend/dist/hwp-it-server.exe
+win:
+  target: nsis
+electronLanguages:
+  - ko
+  - en-US
+electronVersion: 40.6.1

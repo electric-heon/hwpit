@@ -1,0 +1,53 @@
+# Dependencies
+node_modules/
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist-packages/
+
+# Build outputs
+dist/
+dist-electron/
+out/
+build/
+*.dmg
+*.exe
+*.AppImage
+*.snap
+*.deb
+*.rpm
+
+# Vite / React
+*.local
+
+# Environment & secrets
+.env
+.env.*
+*.pem
+
+# Python virtual environment
+venv/
+.venv/
+env/
+
+# IDE / Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Electron
+electron-builder.yml.bak
+
+# Misc
+*.tgz
+.cache/

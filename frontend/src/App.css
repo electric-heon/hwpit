@@ -1,0 +1,154 @@
+@import "tailwindcss";
+/* reset defaults to prevent body margins from shifting content */
+html,
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #FBFAED;
+}
+
+@font-face {
+  font-family: "LuckiestGuy-Regular";
+  font-weight: normal;
+  src: url("./fonts/LuckiestGuy-Regular.ttf") format("truetype");
+}
+
+#root {
+  display: flex;
+  flex-direction: column; /* stack headings and upload component vertically */
+  align-items: center;
+  justify-content: center;
+  /* prevent horizontal overflow and center layout */
+  max-width: 100vw;
+  width: auto;
+  height: 100vh;
+  overflow-x: hidden;
+}
+
+#hwpit {
+  font-family: "LuckiestGuy-Regular";
+  font-size: 83px;
+  color: #2C3016;
+}
+
+#btn {
+  font-family: "LuckiestGuy-Regular";
+}
+
+.title-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 99;
+  height: 35px;
+  align-items: center;
+  justify-content: center;
+  -webkit-app-region: drag;
+}
+
+.icon {
+  width: 100px;
+  height: 100px;
+  pointer-events: none;
+}
+
+.file {
+  display: none;
+}
+
+.file::file-selector-button {
+  font-size: 14px;
+  background: #fff;
+  border: 1px solid #2C3016;
+  border-radius: 12px;
+  padding: 4px 32px;
+  cursor: pointer;
+}
+
+h1 {
+  text-align: center;
+  margin: 0 0 10px 0;
+}
+
+
+.preview {
+  width: 600px;
+  height: 200px;
+  margin: auto;
+  background-color: #F0EEE2;
+  border-radius: 10px;
+  border: 3px dashed #5D6145;
+  padding: 70px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.preview.active{
+  background-color: #c4c3b4;
+  border-color: #2C3016;
+}
+
+.preview:hover {
+  border-color: #a5ad7c;
+} 
+
+.preview_msg {
+  font-weight: 500;
+  font-size: 18px;
+  margin: 20px 0 10px;
+  color: #2C3016;
+}
+
+.preview_desc {
+  margin: 0;
+  font-size: 14px;
+  color: #2C3016;
+}
+
+.btn {
+  background-color: #2C3016;
+  color: #FBFAED;
+  font-family: LuckiestGuy-Regular;
+  font-size: 20px;
+  margin: 10px;
+}
+
+.fileName {
+  color: #2C3016;
+}
+
+.progress-container {
+  width: 400px;
+  height: 10px;
+  background: #909374;
+  border-radius: 12px;
+  position: relative;
+  overflow: hidden;
+}
+
+.progress-bar {
+  height: 100%;
+  background: #2C3016;
+  border-radius: 12px;
+  transition: width 0.3s ease;
+}
+
+.progress-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 12px;
+  font-weight: bold;
+  color: #2C3016;
+}
+
+.loading {
+  color: #2C3016;
+}
