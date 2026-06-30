@@ -13,10 +13,6 @@ class HwpWriter:
             sys.stdout = old_stdout
             devnull.close()
 
-    def process_from_file(self, input_file, output_file):
-        with open(input_file, 'r', encoding='utf-8') as f:
-            return f.read()
-
     def parse_equation(self, text):
         parts = []
         segments = text.split("$")
@@ -53,9 +49,8 @@ class HwpWriter:
 
         self.hwp.HAction.Run("BreakPara")  
 
-    def write_hwp(self, input_file, output_file, on_progress = None):
-        text = self.process_from_file(input_file, output_file)
-        lines = text.split("\n")
+    def write_hwp(self, content, output_file, on_progress = None):
+        lines = content.split("\n")
         total_lines = len(lines)
 
         for i, line in enumerate(lines):

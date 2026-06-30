@@ -4,24 +4,32 @@ import json
 import tempfile
 import os
 from services.hwp_writer import HwpWriter
+from services.pdf_converter import PdfConverter
 
 sys.stdin = io.TextIOWrapper(sys.stdin.buffer, encoding='utf-8')
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8', line_buffering=True)
 
-def handle_progress(line, total_lines):
-    progress = (line / total_lines) * 100
+converter = PdfConverter()
 
-    send_response({
-        'type': 'progress',
-        'value': progress
-    })
+def make_progress_handler(phase):
+    def handle_progress(current, total):
+        send_response({
+            'type': 'progress',
+            'phase': phase,
+            'value': (current / total) * 100
+        })
+    return handle_progress
 
 def process_task(data):
     input_path = data['filePath']
+    content = converter.convert_pdf_by_page(
+        input_path, on_progress=make_progress_handler('pdf'))
+
     base_name = os.path.splitext(os.path.basename(input_path))[0] + '.hwp'
     temp_path = os.path.join(tempfile.gettempdir(), base_name)
+
     writer = HwpWriter()
-    writer.write_hwp(input_path, temp_path, on_progress=handle_progress)
+    writer.write_hwp(content, temp_path, on_progress=make_progress_handler('hwp'))
 
     return {'type': 'complete', 'tempPath': temp_path}
 

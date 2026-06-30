@@ -26,6 +26,8 @@ build/
 .env
 .env.*
 *.pem
+api_key.py
+
 
 # Python virtual environment
 venv/

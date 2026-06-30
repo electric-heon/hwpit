@@ -8,22 +8,30 @@ export const FileUpload = () => {
   const [file, setFile] = useState<File | null>(null)
   const [isLoading, setLoading] = useState(false)
   const [progress, setProgress] = useState(0)
+  const [phase, setPhase] = useState<'pdf' | 'hwp' | null>(null)
 
   useEffect(() => {
     window.electronAPI.onProgress((data: any) => {
       if (data['type'] == 'progress') {
+        setPhase(data['phase'])
         setProgress(Math.round(data['value']))
       } else if (data['type'] == 'complete') {
         setLoading(false)
         setProgress(0)
+        setPhase(null)
         setFile(null)
         setActive(false)
       } else if (data['type'] == 'error') {
         setLoading(false)
         setProgress(0)
+        setPhase(null)
         setFile(null)
         setActive(false)
-        alert('변환 중 에러가 발생했습니다.\n' + data['message'])
+        if (data['code'] == 'EBUSY') {
+          alert('파일을 저장할 수 없습니다.\n같은 이름의 한글 파일이 열려 있다면 닫은 뒤 다시 시도해주세요.')
+        } else {
+          alert('변환 중 에러가 발생했습니다.\n' + data['message'])
+        }
       }
     })
 
@@ -64,6 +72,7 @@ export const FileUpload = () => {
     }
 
     setProgress(0)
+    setPhase('pdf')
     setLoading(true)
     setActive(false)
 
@@ -95,8 +104,8 @@ export const FileUpload = () => {
                       <Upload className="w-8 h-8" color="#2C3016"/>
                   </div>
               </div>
-              <p className="preview_msg">TXT 파일을 드래그하거나 클릭하여 선택하세요.</p>
-              <p className="preview_desc">TXT 파일 작성 방법을 참고하여 파일을 업로드해주세요.</p>
+              <p className="preview_msg">PDF 파일을 드래그하거나 클릭하여 선택하세요.</p>
+              <p className="preview_desc">PDF 파일 작성 방법을 참고하여 파일을 업로드해주세요.</p>
         </label>
       </div>}
       {file && !isLoading && (
@@ -112,7 +121,13 @@ export const FileUpload = () => {
           <div className='progress-container'>
             <div className='progress-bar' style={{width: `${progress}%`}}/>
           </div>
-          <p className="loading">변환중...</p>
+          <p className="loading">
+            {phase === 'pdf'
+              ? `PDF 변환중... ${progress}%`
+              : phase === 'hwp'
+              ? `HWP 작성중... ${progress}%`
+              : '변환중...'}
+          </p>
         </div>
       )}
     </div>

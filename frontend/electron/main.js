@@ -74,11 +74,16 @@ const startPython = (window) => {
               if (!saveResult.canceled) {
                 await fs.promises.copyFile(tempPath, saveResult.filePath)
               }
+              window.webContents.send('python-result', { type: 'complete' })
+            } catch (err) {
+              window.webContents.send('python-result', {
+                type: 'error',
+                code: err.code,
+                message: err.message
+              })
             } finally {
               await fs.promises.unlink(tempPath).catch(() => {})
             }
-
-            window.webContents.send('python-result', { type: 'complete' })
           } else {
             window.webContents.send('python-result', result)
           }
