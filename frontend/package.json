@@ -1,7 +1,7 @@
 {
   "name": "frontend",
   "private": true,
-  "version": "1.0.1",
+  "version": "2.0.0",
   "type": "module",
   "description": "수식 문서 HWP 자동 변환기",
   "author": "Jeong",
@@ -56,7 +56,8 @@
       }
     ],
     "win": {
-      "target": "nsis"
+      "target": "nsis",
+      "icon": "public/hwpit.ico"
     },
     "electronLanguages": ["ko", "en-US"]
   },

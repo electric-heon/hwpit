@@ -27,6 +27,7 @@ build/
 .env.*
 *.pem
 api_key.py
+backend/app/services/config.py
 
 
 # Python virtual environment

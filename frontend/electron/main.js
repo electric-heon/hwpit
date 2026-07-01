@@ -26,6 +26,7 @@ function createWindow() {
       preload: path.join(__dirname, 'preload.js'),
       contextIsolation: true
     },
+    icon: path.join(__dirname, '../public/hwpit.ico')
   });
 
   if (app.isPackaged) {

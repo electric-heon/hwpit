@@ -4,12 +4,18 @@ import os
 
 import anthropic
 from pypdf import PdfReader, PdfWriter
-from services.api_key import API_KEY
+from services.config import PROXY_BASE_URL, APP_TOKEN
 
 class PdfConverter:
 
     def __init__(self):
-        self.client =  anthropic.Anthropic(api_key=API_KEY)  # ANTHROPIC_API_KEY 환경변수 사용
+        # 실제 API 키는 프록시 서버(Cloudflare Worker)에만 있다. 앱은 프록시로만 요청하고
+        # 프록시가 키를 주입해 Anthropic으로 포워딩한다. api_key는 프록시가 무시한다.
+        self.client = anthropic.Anthropic(
+            api_key="proxy",
+            base_url=PROXY_BASE_URL,
+            default_headers={"x-app-token": APP_TOKEN},
+        )
 
         # 변환 규칙(= system_prompt.md, 프론트매터 제거본)을 그대로 읽어 system으로 사용
         prompt_path = os.path.join(os.path.dirname(__file__), "system_prompt.md")
@@ -84,7 +90,7 @@ class PdfConverter:
 
             try:
                 text = self._call(page_bytes)
-            except Exception as e:  # 네트워크/일시적 오류는 페이지 단위로 한 번 재시도
+            except Exception:  # 네트워크/일시적 오류는 페이지 단위로 한 번 재시도
                 text = self._call(page_bytes)
 
             results.append(text)
